@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: summaries
+      POSTGRES_PASSWORD: summaries
+      POSTGRES_DB: summaries
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U summaries -d summaries"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
