@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from datetime import datetime
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from sqlalchemy import Column, DateTime, func
 from sqlmodel import Field, Relationship, SQLModel
@@ -15,7 +13,7 @@ class User(SQLModel, table=True):
 
     __tablename__ = "users"
 
-    id: int | None = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     email: str = Field(max_length=320, unique=True, index=True)
     password: str = Field(max_length=255)
     is_active: bool = Field(default=True)
@@ -27,7 +25,7 @@ class User(SQLModel, table=True):
         ),
     )
 
-    summaries: list[Summary] = Relationship(
+    summaries: List["Summary"] = Relationship(
         back_populates="owner",
         sa_relationship_kwargs={"cascade": "all, delete-orphan"},
     )

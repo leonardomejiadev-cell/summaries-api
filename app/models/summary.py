@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 from datetime import datetime
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import Column, DateTime, Index, Text, func
 from sqlmodel import Field, Relationship, SQLModel
 
-from app.models.user import User
+if TYPE_CHECKING:
+    from app.models.user import User
 
 
 class Summary(SQLModel, table=True):
@@ -38,4 +38,4 @@ class Summary(SQLModel, table=True):
         ),
     )
 
-    owner: User | None = Relationship(back_populates="summaries")
+    owner: Optional["User"] = Relationship(back_populates="summaries")
