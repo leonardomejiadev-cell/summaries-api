@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import Column, DateTime, Index, Text, func
+from sqlalchemy.orm import Mapped
 from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
@@ -38,4 +39,4 @@ class Summary(SQLModel, table=True):
         ),
     )
 
-    owner: Optional["User"] = Relationship(back_populates="summaries")
+    owner: Mapped[Optional["User"]] = Relationship(back_populates="summaries")

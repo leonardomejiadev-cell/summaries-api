@@ -12,13 +12,19 @@ from app.models.user import User
 
 
 async def get_current_user(
-    authorization: str = Header(...),
+    authorization: str | None = Header(default=None),
     session: AsyncSession = Depends(get_session),
 ) -> User:
     """
     Extrae el JWT del header `Authorization: Bearer <token>`,
     valida firma/exp y carga el `User` desde la base de datos.
     """
+
+    if authorization is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
 
     scheme_prefix = "bearer "
     auth_lower = authorization.lower()
