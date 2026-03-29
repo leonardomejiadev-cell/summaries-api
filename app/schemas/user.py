@@ -7,7 +7,7 @@ class UserCreate(BaseModel):
     """Payload para registrar un usuario (contraseña en claro; se hashea en el servicio)."""
 
     email: EmailStr
-    password: str = Field(min_length=1)
+    password: str = Field(min_length=8, max_length=128)
 
 
 class UserRead(BaseModel):
@@ -25,4 +25,4 @@ class UserUpdate(BaseModel):
     """Actualización parcial; solo se aplican campos enviados."""
 
     email: EmailStr | None = None
-    password: str | None = Field(default=None, min_length=1)
+    password: str | None = Field(default=None, min_length=8, max_length=128)

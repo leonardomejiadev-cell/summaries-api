@@ -33,10 +33,15 @@ async def create(
     return summary
 
 
+_UPDATABLE_FIELDS = frozenset({"url", "title"})
+
+
 async def update(session: AsyncSession, summary: Summary, data: dict) -> Summary:
     """Actualiza campos de un summary existente y retorna la versión persistida."""
 
     for key, value in data.items():
+        if key not in _UPDATABLE_FIELDS:
+            raise ValueError(f"Field '{key}' cannot be updated")
         setattr(summary, key, value)
     session.add(summary)
     await session.commit()

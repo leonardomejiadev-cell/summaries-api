@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 class SummaryCreate(BaseModel):
     """Datos para crear un resumen asociado a una URL."""
 
-    url: str = Field(min_length=1)
+    url: str = Field(min_length=1, pattern=r'^https?://')
     title: str | None = None
 
 
@@ -27,5 +27,5 @@ class SummaryRead(BaseModel):
 class SummaryUpdate(BaseModel):
     """Actualización parcial de metadatos del resumen."""
 
-    url: str | None = Field(default=None, min_length=1)
+    url: str | None = Field(default=None, min_length=1, pattern=r'^https?://')
     title: str | None = None
