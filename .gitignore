@@ -9,4 +9,26 @@ prompts.txt
 
 # Virtual environments
 .venv
+
+# Environment variables
 .env
+.env.*
+!.env.example
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checkers & linters
+.mypy_cache/
+.ruff_cache/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Claude Code
+.claude/
