@@ -32,3 +32,6 @@ htmlcov/
 
 # Claude Code
 .claude/
+
+# Cursor
+.cursorrules
