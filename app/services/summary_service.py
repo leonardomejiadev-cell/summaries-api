@@ -1,19 +1,27 @@
 from fastapi import HTTPException, status
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from app.integrations import summarizer_client
 from app.models.summary import Summary
 from app.repositories import summary_repository
+from app.schemas.summary import SummaryCreate
 
 
 async def create(
     session: AsyncSession,
-    url: str,
-    title: str | None,
+    data: SummaryCreate,
     owner_id: int,
 ) -> Summary:
-    """Crea un resumen para el owner indicado."""
+    """
+    Crea un resumen para el owner indicado.
+    Orquesta: genera el texto via IA, luego persiste en la DB.
+    """
 
-    return await summary_repository.create(session, url, title, owner_id)
+    # El service es la capa de lógica de negocio: llama a la integración primero
+    summary_text = await summarizer_client.generate_summary(data.url)
+
+    # Luego delega la persistencia al repository
+    return await summary_repository.create(session, data.url, data.title, summary_text, owner_id)
 
 
 async def get_all(session: AsyncSession, owner_id: int) -> list[Summary]:

@@ -1,9 +1,22 @@
+from unittest.mock import AsyncMock, patch
+
 import pytest
 from httpx import AsyncClient
 
 REGISTER_URL = "/api/v1/auth/register"
 LOGIN_URL = "/api/v1/auth/login"
 SUMMARIES_URL = "/api/v1/summaries/"
+
+# Evita llamadas reales a APIs de IA durante los integration tests.
+# Los tests verifican comportamiento HTTP/DB, no la generación de resúmenes.
+@pytest.fixture(autouse=True)
+def mock_generate_summary():
+    with patch(
+        "app.integrations.summarizer_client.generate_summary",
+        new_callable=AsyncMock,
+        return_value="Mocked summary text for integration tests.",
+    ):
+        yield
 
 
 async def register_and_login(client: AsyncClient, email: str, password: str) -> str:

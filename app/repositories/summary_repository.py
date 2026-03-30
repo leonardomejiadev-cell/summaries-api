@@ -22,11 +22,12 @@ async def create(
     session: AsyncSession,
     url: str,
     title: str | None,
+    summary_text: str | None,
     owner_id: int,
 ) -> Summary:
     """Inserta un summary y devuelve la entidad persistida."""
 
-    summary = Summary(url=url, title=title, owner_id=owner_id)
+    summary = Summary(url=url, title=title, summary_text=summary_text, owner_id=owner_id)
     session.add(summary)
     await session.commit()
     await session.refresh(summary)

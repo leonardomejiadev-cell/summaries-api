@@ -17,12 +17,7 @@ async def create_summary(
 ) -> SummaryRead:
     """Crea un resumen asociado al usuario autenticado."""
 
-    summary = await summary_service.create(
-        session,
-        body.url,
-        body.title,
-        current_user.id,
-    )
+    summary = await summary_service.create(session, body, current_user.id)
     return SummaryRead.model_validate(summary)
 
 
