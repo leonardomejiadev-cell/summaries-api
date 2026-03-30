@@ -1,6 +1,6 @@
 # summaries-api
 
-**Live API:** https://summaries-api-production-6391.up.railway.app/docs
+**Live API:** https://summaries-api-production-67c6.up.railway.app/docs
 
 REST API that receives a URL and returns an AI-generated summary of its content. Built with FastAPI, PostgreSQL, and a multi-provider AI fallback chain.
 
